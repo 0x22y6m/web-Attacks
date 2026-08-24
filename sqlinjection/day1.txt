@@ -1,0 +1,33 @@
+This is the day 1 learnings
+
+1.Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data
+
+This lab contains a SQL injection vulnerability in the product category filter.
+SELECT * FROM products WHERE category = 'Gifts' AND released = 1
+
+End goal is to display all released and unrealeased products.
+
+Answer to this lab : category=Gifts'+or+1=1+--
+SELECT * FROM products WHERE category = '' or 1=1-- ' AND released = 1
+
+This is going to ingone the released=1 and also make the sql statement true bcz anyway category=gifts is true
+
+
+--------------------------------------------------------------------------------------------------
+
+2.Lab: SQL injection vulnerability allowing login bypass
+
+This lab contains a SQL injection vulnerability in the login function.
+To solve the lab, perform a SQL injection attack that logs in to the application as the administrator user.
+
+End Goal is to login as administrator without using the password 
+
+The underlinying query while legit user will login to site:
+SELECT * FROM users WHERE username = 'wiener' AND password = 'bluecheese'
+
+so if we add the comment after the administrator usernmae like -- then we be able to bypass the login functionlity
+
+Anwer for this lab : SELECT * FROM users WHERE username = 'administrator'--'AND password='anything'
+
+--------------------------------------------------------------------------------------------------------
+
