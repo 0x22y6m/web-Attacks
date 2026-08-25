@@ -1,0 +1,13 @@
+today we are solving the lab of Command injection.
+
+Lab #01 : Os command injection, simple case.
+Target Goal - Exploit command injection to execute whoami command.
+
+Analysis:
+
+we will use & , | -> command seperator
+            # -> comment the rest content
+
+to solve lab : productId=2+%26whoami&storeId=1 is used 
+
+----------------------------Scripting -----------------------------
